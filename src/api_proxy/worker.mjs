@@ -1,7 +1,6 @@
 import { Buffer } from "node:buffer";
-
+let rangNum = 0;
 export default {
-  const rangNum = null
   async fetch (request) {
     if (request.method === "OPTIONS") {
       return handleOPTIONS();
