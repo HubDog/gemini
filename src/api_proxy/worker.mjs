@@ -14,13 +14,18 @@ export default {
       const auth = request.headers.get("Authorization");
       const apiKeys = auth?.split(" ")[1];
       const apiKeyArr = apiKeys.split(",");
-      let nowNum = Math.floor(Math.random() * apiKeyArr.length);
+      /**let nowNum = Math.floor(Math.random() * apiKeyArr.length);
       while (rangNum && nowNum == rangNum){
         nowNum = Math.floor(Math.random() * apiKeyArr.length);
       }
       console.log("rangNum:  "+ rangNum + "nowNum:  " + nowNum)
-      rangNum = nowNum;
-      const apiKey = apiKeyArr[nowNum];
+      rangNum = nowNum;**/
+      console.log("rangNum: " + rangNum);
+      const apiKey = apiKeyArr[rangNum];
+      rangNum++;
+      if (rangNum == apiKeyArr.length){
+        rangNum = 0;
+      }
       /**const apiKey = apiKeyArr[Math.floor(Math.random() * apiKeyArr.length)]**/
       const assert = (success) => {
         if (!success) {
