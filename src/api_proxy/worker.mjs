@@ -18,6 +18,7 @@ export default {
       while (rangNum && nowNum == rangNum){
         nowNum = Math.floor(Math.random() * apiKeyArr.length);
       }
+      console.log("rangNum:  "+ rangNum + "nowNum:  " + nowNum)
       rangNum = nowNum;
       const apiKey = apiKeyArr[nowNum];
       /**const apiKey = apiKeyArr[Math.floor(Math.random() * apiKeyArr.length)]**/
