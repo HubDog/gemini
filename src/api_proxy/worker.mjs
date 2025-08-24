@@ -13,7 +13,14 @@ export default {
       const auth = request.headers.get("Authorization");
       const apiKeys = auth?.split(" ")[1];
       const apiKeyArr = apiKeys.split(",");
-      const apiKey = apiKeyArr[Math.floor(Math.random() * apiKeyArr.length)]
+      let rangNum = localStorage.getItem("rangNum");
+      let nowNum = Math.floor(Math.random() * apiKeyArr.length);
+      while (rangNum && nowNum == rangNum){
+        nowNum = Math.floor(Math.random() * apiKeyArr.length);
+      }
+      localStorage.setItem("rangNum", nowNum);
+      const apiKey = apiKeyArr[nowNum];
+      /**const apiKey = apiKeyArr[Math.floor(Math.random() * apiKeyArr.length)]**/
       const assert = (success) => {
         if (!success) {
           throw new HttpError("The specified HTTP method is not allowed for the requested resource", 400);
