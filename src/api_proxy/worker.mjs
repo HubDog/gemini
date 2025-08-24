@@ -5,6 +5,30 @@ export default {
     if (request.method === "OPTIONS") {
       return handleOPTIONS();
     }
+
+    const cookieStorage = {
+  setItem: function(key, value, days = 365) {
+    const d = new Date();
+    d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+    const expires = `expires=${d.toUTCString()}`;
+    document.cookie = `${encodeURIComponent(key)}=${encodeURIComponent(value)};${expires};path=/`;
+  },
+  getItem: function(key) {
+    const name = `${encodeURIComponent(key)}=`;
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      let cookie = cookies[i].trim();
+      if (cookie.indexOf(name) === 0) {
+        return decodeURIComponent(cookie.substring(name.length, cookie.length));
+      }
+    }
+    return null;
+  },
+  removeItem: function(key) {
+    this.setItem(key, '', -1);
+  }
+    }
+    
     const errHandler = (err) => {
       console.error(err);
       return new Response(err.message, fixCors({ status: err.status ?? 500 }));
@@ -13,12 +37,12 @@ export default {
       const auth = request.headers.get("Authorization");
       const apiKeys = auth?.split(" ")[1];
       const apiKeyArr = apiKeys.split(",");
-      let rangNum = localStorage.getItem("rangNum");
+      let rangNum = cookieStorage.getItem("rangNum");
       let nowNum = Math.floor(Math.random() * apiKeyArr.length);
       while (rangNum && nowNum == rangNum){
         nowNum = Math.floor(Math.random() * apiKeyArr.length);
       }
-      localStorage.setItem("rangNum", nowNum);
+      cookieStorage.setItem("rangNum", nowNum);
       const apiKey = apiKeyArr[nowNum];
       /**const apiKey = apiKeyArr[Math.floor(Math.random() * apiKeyArr.length)]**/
       const assert = (success) => {
