@@ -23,7 +23,7 @@ export default {
       console.log("rangNum: " + rangNum);
       const apiKey = apiKeyArr[rangNum];
       rangNum++;
-      if (rangNum == apiKeyArr.length){
+      if (rangNum >= apiKeyArr.length){
         rangNum = 0;
       }
       /**const apiKey = apiKeyArr[Math.floor(Math.random() * apiKeyArr.length)]**/
